@@ -1,4 +1,14 @@
-import {Chip, Paper, Stack, Typography} from "@mui/material";
+import {
+    Chip,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    SelectChangeEvent,
+    Stack,
+    Typography
+} from "@mui/material";
 import React from "react";
 import {Types} from "./BubbleChart/types";
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -23,11 +33,17 @@ const SummaryInterface = () => {
 
     const [data, setData] = React.useState<Types.Data[]>(d.slice(1, 10))
     const [showDescriptions, setShowDescriptions] = React.useState(false);
+    const [timePeriod, setTimePeriod] = React.useState(7);
+
+    // const handleChange = (event: SelectChangeEvent) => {
+    //     setTimePeriod(event.target.value);
+    // };
 
     const toggleShowDescriptions = () => {
         setShowDescriptions(!showDescriptions)
     }
     const changeData = () => {
+
         setData(d.sort(() => Math.random() - 0.5))
     }
 
@@ -38,7 +54,7 @@ const SummaryInterface = () => {
     return (
         <Stack sx={{height: "100%", backgroundColor: 'primary', my: '50px'}} spacing={3} direction="column" alignItems="center"
                justifyContent="flex-start">
-            <Typography variant="h5" color="secondary">Your stats this week.</Typography>
+            <Typography variant="h5" color="secondary">Your recent stats</Typography>
             <BubbleChart3 bubblesData={data} width={600} height={400} textFillColor="drakgrey" backgroundColor="#ffffff"
                           minValue={1} maxValue={150} selectedCircle={selectedKeyHandler}/>
             <Stack sx={{width: "100%"}} direction="row" alignItems="flex-start" justifyContent="space-between">
@@ -48,6 +64,20 @@ const SummaryInterface = () => {
                       icon={<InfoIcon fontSize='small'/>}
                       label="Show descriptions"
                       onClick={toggleShowDescriptions}/>
+                {/*<FormControl size='small'>*/}
+                {/*    <Select*/}
+                {/*        labelId="time-period"*/}
+                {/*        id="time-period"*/}
+                {/*        value={timePeriod}*/}
+                {/*        label=""*/}
+                {/*        onChange={handleChange}*/}
+                {/*    >*/}
+                {/*        <MenuItem value={7}>Past 7 days</MenuItem>*/}
+                {/*        <MenuItem value={30}>Past 30 days</MenuItem>*/}
+                {/*        <MenuItem value={60}>Past 60 days</MenuItem>*/}
+                {/*        <MenuItem value={90}>Past 90 days</MenuItem>*/}
+                {/*    </Select>*/}
+                {/*</FormControl>*/}
                 <Chip size='medium'
                       variant='outlined'
                       color='secondary'
