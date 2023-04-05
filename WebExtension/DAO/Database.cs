@@ -274,49 +274,58 @@ namespace WebExtension.DAO
             return responses;
         }
 
-        public ArrayList GetResponsesByEmployeeID(int eid)
+        public IDictionary<int, int> GetResponsesByEmployeeID(int eid, DateTime startTime, DateTime endTime)
         {
-            ArrayList responses = new ArrayList();
+            IDictionary<int, int> iconCount = new Dictionary<int, int>();
+
             Console.WriteLine("Get responses by employee ID...");
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT * FROM Responses WHERE EmployeeID = @eid;");
+            sb.Append("SELECT IconID, Count(*) FROM Responses WHERE EmployeeID = @eid AND SubmittedOn >= @st AND SubmittedOn < @et GROUP BY IconID;");
             String sql = sb.ToString();
             using (SqlCommand command = new SqlCommand(sql, this.connection))
             {
                 command.Parameters.AddWithValue("@eid", eid);
+                command.Parameters.AddWithValue("@st", startTime);
+                command.Parameters.AddWithValue("@et", endTime); 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        responses.Add(new Response(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDateTime(3)));
+                        iconCount.Add(reader.GetInt32(0), reader.GetInt32(1));
+                        //responses.Add(new Response(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDateTime(3)));
                     }
                 }
             }
 
-            return responses;
+            return iconCount;
         }
 
-        public ArrayList GetResponsesByGroupId(int groupId)
+        public IDictionary<int, int> GetResponsesByGroupId(int groupId, DateTime startTime, DateTime endTime)
         {
-            ArrayList responses = new ArrayList();
+            
             Console.WriteLine("Get responses by Group ID...");
+            IDictionary<int, int> iconCount = new Dictionary<int, int>();
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT * from GroupEmployeeRelations as ge, Responses as r where ge.EmployeeID = r.EmployeeID and ge.GroupID = @gid;");
+            sb.Append("SELECT r.IconID, Count(*) from GroupEmployeeRelations as ge, Responses as r where ge.EmployeeID = r.EmployeeID " +
+                "and ge.GroupID = @gid AND SubmittedOn >= @st AND SubmittedOn < @et GROUP BY IconID;");
             String sql = sb.ToString();
             using (SqlCommand command = new SqlCommand(sql, this.connection))
             {
                 command.Parameters.AddWithValue("@gid", groupId);
+                command.Parameters.AddWithValue("@st", startTime);
+                command.Parameters.AddWithValue("@et", endTime);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        responses.Add(new Response(reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(0), reader.GetDateTime(5)));
+                        iconCount.Add(reader.GetInt32(0), reader.GetInt32(1));
+                        //responses.Add(new Response(reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(0), reader.GetDateTime(5)));
                         //Console.WriteLine("{0} {1} {2} {3} {4}", reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4));
                     }
                 }
             }
 
-            return responses;
+            return iconCount;
 
         }
 

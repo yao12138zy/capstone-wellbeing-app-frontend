@@ -13,10 +13,6 @@ db.connect();
 Console.WriteLine(db.GetResponsesByGroupId(1).ToString());
 */
 
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
