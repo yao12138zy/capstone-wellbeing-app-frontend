@@ -3,15 +3,18 @@ const createClient = (basePath: string) => ({
     responses: {
         put: async ({iconId}: {iconId: number}) => {
             const data = {
-                iconId: iconId,
-                employeeId: 'test',
+                "iconId": 1,
+                "employeeId": 2,
             }
 
             return await fetch(`${basePath}/response/submit`, {
-                method: 'PUT',
-                body: '',
+                method: 'POST',
+                body: JSON.stringify(data),
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    'Access-Control-Allow-Headers': "*",
+                    "Access-Control-Allow-Methods" : "GET, POST, OPTIONS, PUT, DELETE"
                 }
             });
         },
@@ -41,6 +44,6 @@ const createClient = (basePath: string) => ({
 
 })
 
-const client = createClient('http://localhost:8937')
+const client = createClient('http://localhost:5267')
 
 export default client
