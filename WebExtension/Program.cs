@@ -16,7 +16,20 @@ Console.WriteLine(db.GetResponsesByGroupId(1).ToString());
 
 
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllHeaders",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -34,8 +47,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
 
+app.UseRouting();
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 app.UseAuthorization();
 
 
@@ -46,6 +64,9 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+
+
 
 
 
