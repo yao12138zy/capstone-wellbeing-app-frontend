@@ -11,7 +11,7 @@ import BubbleChart3 from "./BubbleChart3/BubbleChart3";
 import client from "../client/Client";
 import IconDescriptions from "./descriptions";
 
-const SummaryInterface = () => {
+const AdminInterface = () => {
 
     const d: Types.Data[] = [
         {id: 1, description:"very happy", icon: '😄', size: 200, fillColor: '#00000000'},
@@ -69,7 +69,7 @@ const SummaryInterface = () => {
     return (
         <Stack sx={{height: "100%", backgroundColor: 'primary', my: '50px'}} spacing={3} direction="column" alignItems="center"
                justifyContent="flex-start">
-            <Typography variant="h5" color="secondary">Your recent stats</Typography>
+            <Typography variant="h5" color="secondary">Admin Dashboard</Typography>
             <BubbleChart3 bubblesData={data} width={600} height={400} textFillColor="drakgrey" backgroundColor="#ffffff"
                           minValue={Math.min(...data.map(it => it.size))} maxValue={Math.max(...data.map(it => it.size))} selectedCircle={selectedKeyHandler}/>
             <Stack sx={{width: "100%"}} direction="row" alignItems="flex-start" justifyContent="space-between">
@@ -79,21 +79,7 @@ const SummaryInterface = () => {
                       icon={<InfoIcon fontSize='small'/>}
                       label="Show descriptions"
                       onClick={toggleShowDescriptions}/>
-                {/*<FormControl color="secondary" size='small'>*/}
-                {/*    <Select*/}
-                {/*        labelId="time-period"*/}
-                {/*        id="time-period"*/}
-                {/*        value={timePeriod}*/}
-                {/*        label=""*/}
-                {/*        onChange={handleTimePeriodChange}*/}
-                {/*        color="secondary"*/}
-                {/*    >*/}
-                {/*        <MenuItem color="secondary" value={7}>Past 7 days</MenuItem>*/}
-                {/*        <MenuItem color="secondary" value={30}>Past 30 days</MenuItem>*/}
-                {/*        <MenuItem color="secondary" value={60}>Past 60 days</MenuItem>*/}
-                {/*        <MenuItem color="secondary" value={90}>Past 90 days</MenuItem>*/}
-                {/*    </Select>*/}
-                {/*</FormControl>*/}
+
                 <Chip size='medium'
                       variant='outlined'
                       color='secondary'
@@ -101,6 +87,7 @@ const SummaryInterface = () => {
                       label={`Past ${timePeriod} days`}
                       onClick={handleTimePeriodChange}/>
             </Stack>
+
             {showDescriptions ?
                 <IconDescriptions iconList={data}/>: null}
 
@@ -108,4 +95,4 @@ const SummaryInterface = () => {
     )
 }
 
-export default SummaryInterface
+export default AdminInterface

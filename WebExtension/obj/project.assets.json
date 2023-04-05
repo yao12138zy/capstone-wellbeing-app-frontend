@@ -1214,19 +1214,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/yaozy/.nuget/packages/": {}
+    "C:\\Users\\Lorna\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/yaozy/Documents/GitHub/capstone-wellbeing-app-frontend/WebExtension/WebExtension.csproj",
+      "projectUniqueName": "C:\\Users\\Lorna\\ssd-code-repos\\capstone-wellbeing-app-frontend\\WebExtension\\WebExtension.csproj",
       "projectName": "WebExtension",
-      "projectPath": "/Users/yaozy/Documents/GitHub/capstone-wellbeing-app-frontend/WebExtension/WebExtension.csproj",
-      "packagesPath": "/Users/yaozy/.nuget/packages/",
-      "outputPath": "/Users/yaozy/Documents/GitHub/capstone-wellbeing-app-frontend/WebExtension/obj/",
+      "projectPath": "C:\\Users\\Lorna\\ssd-code-repos\\capstone-wellbeing-app-frontend\\WebExtension\\WebExtension.csproj",
+      "packagesPath": "C:\\Users\\Lorna\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Lorna\\ssd-code-repos\\capstone-wellbeing-app-frontend\\WebExtension\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/yaozy/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Lorna\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -1290,7 +1290,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.201/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\Lorna\\.dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

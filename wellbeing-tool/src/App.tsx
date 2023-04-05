@@ -5,21 +5,24 @@ import {createTheme, CssBaseline, GlobalStyles, ThemeProvider} from "@mui/materi
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Layout from "./components/layout";
 import SummaryInterface from "./components/summary";
+import AdminInterface from "./components/admin";
 
 /*TD Green (Light): #008A00; */
 /* Background of Style Sheet: #E5E5E5*/
 const tdTheme = createTheme({
   palette: {
     primary: {
-      main: '#E5E5E5'
+      main: '#FFFFFF'
     },
     secondary: {
       main: '#008A00'
     },
     background: {
       default: '#F5F5F5'
+    },
+    text: {
+      primary: '#262626'
     }
-
   },
 
   typography: {
@@ -86,6 +89,7 @@ function App() {
                 <Route index element={<Navigate to="/response"/>}/>
                 <Route path="response" element={<ResponseInterface/>}/>
                 <Route path="summary" element={<SummaryInterface/>}/>
+                <Route path="admin" element={<AdminInterface/>}/>
               </Route>
             </Routes>
           </BrowserRouter>

@@ -1,28 +1,36 @@
-import {Button, Card, Chip, IconButton, Paper, Stack, Typography} from "@mui/material";
+import {Alert, Card, Chip, IconButton, Snackbar, Stack, Tooltip, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import LockIcon from '@mui/icons-material/Lock';
 import InfoIcon from "@mui/icons-material/Info";
+import LoadingButton from '@mui/lab/LoadingButton';
 import React from "react";
-import {Types} from "./BubbleChart/types";
-import uuid from "react-uuid";
+import client from "../client/Client";
+import IconDescriptions from "./descriptions";
 
-const d: Types.Data[] = [
-    {id: 1, description:"very happy", icon: '😄', size: 200, fillColor: '#FFFFFF'},
-    {id: 2, description:"happy", icon: '🙂', size: 50, fillColor: '#FFFFFF'},
-    {id: 3, description:"sad",  icon: '🙁', size: 100, fillColor: '#FFFFFF'},
-    {id: 4, description:"anxious", icon: '😰', size: 70, fillColor: '#FFFFFF'},
-    {id: 5, description:"excited", icon: '😂', size: 250, fillColor: '#FFFFFF'},
-    {id: 6, description:"ill", icon: '🤒', size: 130, fillColor: '#FFFFFF'},
-    {id: 7, description:"tired", icon: '😴', size: 80, fillColor: '#FFFFFF'},
-    {id: 8, description:"neutral", icon: '😐', size: 50, fillColor: '#FFFFFF'},
-    {id: 9, description:"very sad", icon: '😩', size: 90, fillColor: '#FFFFFF'},
-    {id: 10,description:"angry", icon: '😡', size: 40, fillColor: '#FFFFFF'},
-]
+const iconList = [
+    {id: 1, description: "very sad", icon: '😩'},
+    {id: 2, description: "sad", icon: '🙁'},
+    {id: 3, description: "neutral", icon: '😐'},
+    {id: 4, description: "happy", icon: '🙂'},
+    {id: 5, description: "very happy", icon: '😄'},
+    {id: 6, description: "anxious", icon: '😰'},
+    {id: 7, description: "excited", icon: '😂'},
+    {id: 8, description: "ill", icon: '🤒'},
+    {id: 9, description: "tired", icon: '😴'},
+    {id: 10, description: "angry", icon: '😡'},
+] // Probably should come from backend
 
-const iconList = ['😩', '🙁', '😐', '🙂', '😄', '😂', '😰', '😡', '😴', '🤒']
+function CloseIcon(props: { fontSize: string }) {
+    return null;
+}
+
 const ResponseInterface = () => {
 
     const [showDescriptions, setShowDescriptions] = React.useState(false);
+    const [selectedIconId, setSelectedIconId] = React.useState(-1)
+    const [open, setOpen] = React.useState(false);
+    const [successfulSubmit, setSuccessfulSubmit] = React.useState(false);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const toggleShowDescriptions = () => {
         setShowDescriptions(!showDescriptions)
@@ -31,28 +39,74 @@ const ResponseInterface = () => {
         console.info('Anonymous');
     };
 
-    const handleIconClick = () => {
+    const handleSubmit = async () => {
+        try {
+            setIsSubmitting(true)
+            const result = await client.responses.put({iconId: selectedIconId})
+            setSuccessfulSubmit(result.ok)
+        } catch {
+            setSuccessfulSubmit(false)
+        } finally {
+            setIsSubmitting(false)
+            setOpen(true)
+        }
+    };
+
+    const handleIconClick = (id: number) => {
+        if (selectedIconId !== id)
+            setSelectedIconId(id);
+        else
+            setSelectedIconId(-1)
     }
 
-    return(
-        <Stack sx={{height: "100%", backgroundColor: 'primary', my: '50px'}} spacing={2} direction="column" alignItems="center" justifyContent="flex-start">
+    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+
+    const submitConfirmation = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small"/>
+            </IconButton>
+        </React.Fragment>
+    );
+
+    return (
+        <Stack sx={{height: "100%", backgroundColor: 'primary', my: '50px'}} spacing={2} direction="column"
+               alignItems="center" justifyContent="flex-start">
             <Typography variant="h5" color="secondary">How are you feeling today?</Typography>
-            <Card sx={{width:"100%", marginTop:'5px', padding: '15px', borderRadius: '10px'}}>
+            <Card sx={{width: "100%", marginTop: '5px', padding: '15px', borderRadius: '10px'}}>
                 <Grid2 container spacing={2} columns={5}>
                     {
                         iconList.map((item) => {
                             return (
-                                <Grid2 key={`i-${uuid()}`} xs={1}>
-                                    <IconButton aria-label="mood" onClick={handleIconClick}>
-                                        <Typography color="black" variant="h3">{item}</Typography>
-                                    </IconButton>
+                                <Grid2 key={`i-${item.id}`} xs={1}>
+                                    <Tooltip title={item.description}>
+                                        <IconButton aria-label="mood" onClick={() => handleIconClick(item.id)}
+                                                    classes={{root: item.id === selectedIconId ? 'emoji-icon-button-selected' : ''}}>
+                                            <Typography color="black" variant="h3">{item.icon}</Typography>
+                                        </IconButton>
+                                    </Tooltip>
+
                                 </Grid2>)
                         })
                     }
                 </Grid2>
             </Card>
-            <Stack sx={{width: '100%'}} spacing={2} direction="row" alignItems="flex-start" justifyContent="space-between">
-                <Stack sx={{flexGrow: '5'}} spacing={2} direction="row" alignItems="flex-start" justifyContent="flex-start" >
+            <Stack sx={{width: '100%'}} spacing={2} direction="row" alignItems="flex-start"
+                   justifyContent="space-between">
+                <Stack sx={{flexGrow: '5'}} spacing={2} direction="row" alignItems="flex-start"
+                       justifyContent="flex-start">
                     <Chip size='medium'
                           color='secondary'
                           variant='outlined'
@@ -68,24 +122,29 @@ const ResponseInterface = () => {
                         onClick={handlePrivacyClick}/>
                 </Stack>
 
-                <Button sx={{marginLeft:'auto', marginRight:'0'}} variant="contained" color="secondary">Submit</Button>
+                <LoadingButton sx={{marginLeft: 'auto', marginRight: '0'}}
+                               variant="contained"
+                               color="secondary"
+                               onClick={handleSubmit}
+                               loading={isSubmitting}
+                               disabled={selectedIconId === -1}>Submit</LoadingButton>
             </Stack>
 
 
             {showDescriptions ?
-                <Paper sx={{width: "100%", p: '10px 10px', height: '200px'}}>
-                    <Stack sx={{width: "100%", maxHeight: '100%', overflow: 'auto'}} spacing={0.5}>
-                        {
-                            d.map((line) => {
-                                return(
-                                    <Stack key={`d-${uuid()}`} sx={{width: "100%"}} spacing={2} direction="row" alignItems="center" justifyContent="flex-start">
-                                        <Typography variant='h5'>{line.icon}</Typography>
-                                        <Typography variant='body1'>{line.description}</Typography>
-                                    </Stack>
-                                )})
-                        }
-                    </Stack>
-                </Paper> : null}
+                <IconDescriptions iconList={iconList}/> : null}
+
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message="Note archived"
+                action={submitConfirmation}
+            >
+                {successfulSubmit ?
+                    <Alert severity="success">Response submitted!</Alert>
+                    : <Alert severity="error">Could not submit response</Alert>}
+            </Snackbar>
 
         </Stack>
     )

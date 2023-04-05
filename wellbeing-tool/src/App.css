@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.emoji-icon-button-selected {
+  background-color: rgba(0, 138, 0, 0.2) !important;
+}

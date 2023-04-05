@@ -53,7 +53,7 @@ class BubbleChart extends React.Component<IBubbleChartProps, IBubbleChartState> 
     }
 
     radiusScale = (value: d3.NumberValue) => {
-        const fx = d3.scaleSqrt().range([1, 50]).domain([this.props.minValue, this.props.maxValue])
+        const fx = d3.scaleSqrt().range([20, 70]).domain([this.props.minValue, this.props.maxValue])
         return fx(value)
     }
 
@@ -83,21 +83,23 @@ class BubbleChart extends React.Component<IBubbleChartProps, IBubbleChartState> 
             const fontSize = this.radiusScale((item as unknown as Types.ForceData).size) * 2
             const content = props.bubblesData.length > index ? props.bubblesData[index].icon : ''
             const description = props.bubblesData.length > index ? props.bubblesData[index].description : ''
-            const strokeColor = props.bubblesData.length > index ? this.props.backgroundColor : this.props.backgroundColor
+            const count = props.bubblesData.length > index ? props.bubblesData[index].size : ''
+            const strokeColor = props.bubblesData.length > index ? props.bubblesData[index].fillColor : this.props.backgroundColor
             return (
-                <Tooltip key={`g-${uuid()}`} title={description} placement='top' arrow>
+                <Tooltip key={`g-${uuid()}`} title={`${description} · ${count}`} placement='top' arrow>
                     <g
                        transform={`translate(${props.width / 2 + item.x - 70}, ${props.height / 2 + item.y})`}>
 
                         <circle
                             style={{cursor: 'pointer'}}
+                            className='grow'
                             onClick={() => {
                                 this.props.selectedCircle(content)
                             }}
                             id="circleSvg"
                             r={this.radiusScale((item as unknown as Types.ForceData).size)}
-                            fill={props.bubblesData[index].fillColor}
-                            stroke={strokeColor}
+                            fill={'#00000000'}
+                            stroke={'#00000000'}
                             strokeWidth="2"
                         />
 
@@ -106,10 +108,10 @@ class BubbleChart extends React.Component<IBubbleChartProps, IBubbleChartState> 
                                 this.props.selectedCircle(description)
                             }}
                             dy={`${fontSize/2.9}px`}
-                            className="bubbleText"
+                            className="bubbleText grow"
                             fill={this.props.textFillColor}
                             textAnchor="middle"
-                            fontSize={`${fontSize}px`}
+                            fontSize={`${fontSize*0.95}px`}
                             fontWeight="normal"
                         >
                             {content}
