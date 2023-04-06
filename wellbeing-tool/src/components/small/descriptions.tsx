@@ -12,10 +12,10 @@ const IconDescriptions = (prop: { iconList: any[]; }) => {
                     prop.iconList.map((line: any) => {
                         return (
                             <Grid2 key={`i-${line.id}`} xs={1}>
-                            <Stack key={`d-${uuid()}`} sx={{width: "100%"}} spacing={2} direction="column"
+                            <Stack key={`d-${uuid()}`} sx={{width: "100%"}} spacing={1} direction="column"
                                    alignItems="center" justifyContent="flex-start">
                                 <Typography variant='h4'>{line.icon}</Typography>
-                                <Typography variant='body1'>{line.description}</Typography>
+                                <Typography align='center' variant='subtitle2'>{line.description}</Typography>
                             </Stack>
                             </Grid2>
                         )

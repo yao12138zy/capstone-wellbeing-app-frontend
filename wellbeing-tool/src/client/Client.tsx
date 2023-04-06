@@ -1,10 +1,9 @@
-
 const createClient = (basePath: string) => ({
     responses: {
-        put: async ({iconId}: {iconId: number}) => {
+        put: async ({iconId, employeeID}: any) => {
             const data = {
-                "iconId": 1,
-                "employeeId": 2,
+                "iconId": iconId,
+                "employeeId": employeeID,
             }
 
             return await fetch(`${basePath}/response/submit`, {
@@ -14,13 +13,17 @@ const createClient = (basePath: string) => ({
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     'Access-Control-Allow-Headers': "*",
-                    "Access-Control-Allow-Methods" : "GET, POST, OPTIONS, PUT, DELETE"
+                    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE"
                 }
             });
         },
 
-        get: async ({employeeId}: any) => {
-            const response = await fetch(`${basePath}/response/${employeeId}`, {
+        get: async ({employeeId, day}: any) => {
+            const queryParams = Object.fromEntries(Object.entries({
+                day: day,
+            }).filter(([, v]) => !!v));
+            const response = await fetch(`${basePath}/response/${employeeId}` + new URLSearchParams(queryParams), {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -31,8 +34,26 @@ const createClient = (basePath: string) => ({
     },
 
     admin: {
-        getAll: async() => {
-            const response = await fetch(`${basePath}/responses/all`, {
+        getAll: async ({day}: any) => {
+            const queryParams = Object.fromEntries(Object.entries({
+                day: day,
+            }).filter(([, v]) => !!v));
+            const response = await fetch(`${basePath}/responses/all` + new URLSearchParams(queryParams), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            return response.json();
+        },
+
+        getGroup: async ({groupId, day}: any) => {
+            const queryParams = Object.fromEntries(Object.entries({
+                day: day,
+            }).filter(([, v]) => !!v));
+            const response = await fetch(`${basePath}/responses/${groupId}` + new URLSearchParams(queryParams), {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }

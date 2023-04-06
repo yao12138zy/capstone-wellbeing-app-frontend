@@ -125,8 +125,13 @@ class BubbleChart extends React.Component<IBubbleChartProps, IBubbleChartState> 
     render() {
         return (
             <div>
-                <div aria-hidden="true" id="chart" style={{background: this.props.backgroundColor, cursor: 'pointer', borderRadius: '50px'}}>
-                    <svg width={this.props.width} height={this.props.height}>
+                <div aria-hidden="true" id="chart" style={{background: this.props.backgroundColor, cursor: 'pointer', borderRadius: '5px'}}>
+                    <svg viewBox={`0 0 ${this.props.width} ${this.props.height}`}
+                         style={{
+                            height: "100%",
+                            marginRight: "0px",
+                            marginLeft: "0px",
+                        }}>
                         {this.renderBubbles(this.state.data as [])}
                     </svg>
                 </div>

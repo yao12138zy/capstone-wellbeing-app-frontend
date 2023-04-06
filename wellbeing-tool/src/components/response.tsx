@@ -5,7 +5,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import LoadingButton from '@mui/lab/LoadingButton';
 import React from "react";
 import client from "../client/Client";
-import IconDescriptions from "./descriptions";
+import IconDescriptions from "./small/descriptions";
+import OutlineChip from "./small/outlineChip";
 
 const iconList = [
     {id: 1, description: "very sad", icon: '😩'},
@@ -44,6 +45,7 @@ const ResponseInterface = () => {
             setIsSubmitting(true)
             const result = await client.responses.put({iconId: selectedIconId})
             setSuccessfulSubmit(result.ok)
+            setSelectedIconId(-1)
         } catch {
             setSuccessfulSubmit(false)
         } finally {
@@ -92,12 +94,12 @@ const ResponseInterface = () => {
                             return (
                                 <Grid2 key={`i-${item.id}`} xs={1}>
                                     <Tooltip title={item.description}>
-                                        <IconButton aria-label="mood" onClick={() => handleIconClick(item.id)}
+                                        <IconButton className='grow' aria-label="mood" onClick={() => handleIconClick(item.id)}
                                                     classes={{root: item.id === selectedIconId ? 'emoji-icon-button-selected' : ''}}>
                                             <Typography color="black" variant="h3">{item.icon}</Typography>
                                         </IconButton>
                                     </Tooltip>
-
+                                    {showDescriptions ? <Typography align='center' variant='subtitle2'>{item.description}</Typography>: null}
                                 </Grid2>)
                         })
                     }
@@ -107,19 +109,8 @@ const ResponseInterface = () => {
                    justifyContent="space-between">
                 <Stack sx={{flexGrow: '5'}} spacing={2} direction="row" alignItems="flex-start"
                        justifyContent="flex-start">
-                    <Chip size='medium'
-                          color='secondary'
-                          variant='outlined'
-                          icon={<InfoIcon fontSize='small'/>}
-                          label="Show descriptions"
-                          onClick={toggleShowDescriptions}/>
-                    <Chip
-                        size='medium'
-                        color='secondary'
-                        variant='outlined'
-                        icon={<LockIcon fontSize='small'/>}
-                        label="Confidential"
-                        onClick={handlePrivacyClick}/>
+                    <OutlineChip action={toggleShowDescriptions} label='Show descriptions' icon={<InfoIcon fontSize='small'/>}/>
+                    <OutlineChip action={handlePrivacyClick} label='Confidential' icon={<LockIcon fontSize='small'/>}/>
                 </Stack>
 
                 <LoadingButton sx={{marginLeft: 'auto', marginRight: '0'}}
@@ -131,8 +122,8 @@ const ResponseInterface = () => {
             </Stack>
 
 
-            {showDescriptions ?
-                <IconDescriptions iconList={iconList}/> : null}
+            {/*{showDescriptions ?*/}
+            {/*    <IconDescriptions iconList={iconList}/> : null}*/}
 
             <Snackbar
                 open={open}

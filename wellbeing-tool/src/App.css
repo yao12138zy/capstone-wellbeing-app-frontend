@@ -40,3 +40,7 @@
 .emoji-icon-button-selected {
   background-color: rgba(0, 138, 0, 0.2) !important;
 }
+
+.group-chip-selected {
+  background-color: rgb(0, 96, 0) !important;
+}
