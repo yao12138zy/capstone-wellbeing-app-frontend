@@ -1,7 +1,5 @@
-import InfoIcon from "@mui/icons-material/Info";
 import {Chip} from "@mui/material";
 import React from "react";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 const FilledChip = (prop: any) => {
     return(

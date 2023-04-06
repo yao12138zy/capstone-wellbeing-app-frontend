@@ -1,9 +1,8 @@
-import InfoIcon from "@mui/icons-material/Info";
 import {Chip} from "@mui/material";
 import React from "react";
 
 const OutlineChip = (prop: any) => {
-    return(
+    return (
         <Chip size='medium'
               color='secondary'
               variant='outlined'

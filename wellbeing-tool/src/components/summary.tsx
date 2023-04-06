@@ -1,6 +1,5 @@
 import {
-    Alert, Card,
-    Chip, Snackbar,
+    Alert, Card, Snackbar,
     Stack, Tooltip,
     Typography
 } from "@mui/material";
@@ -8,7 +7,7 @@ import React, {useEffect} from "react";
 import {Types} from "./BubbleChart/types";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import InfoIcon from '@mui/icons-material/Info';
-import BubbleChart3 from "./BubbleChart3/BubbleChart3";
+import BubbleChart3 from "./BubbleChart/BubbleChart";
 import client from "../client/Client";
 import IconDescriptions from "./small/descriptions";
 import OutlineChip from "./small/outlineChip";

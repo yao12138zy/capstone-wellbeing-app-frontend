@@ -1,11 +1,10 @@
-import {Alert, Card, Chip, IconButton, Snackbar, Stack, Tooltip, Typography} from "@mui/material";
+import {Alert, Card, IconButton, Snackbar, Stack, Tooltip, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import LockIcon from '@mui/icons-material/Lock';
 import InfoIcon from "@mui/icons-material/Info";
 import LoadingButton from '@mui/lab/LoadingButton';
 import React from "react";
 import client from "../client/Client";
-import IconDescriptions from "./small/descriptions";
 import OutlineChip from "./small/outlineChip";
 
 const iconList = [

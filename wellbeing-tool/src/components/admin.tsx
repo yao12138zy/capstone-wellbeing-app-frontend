@@ -1,7 +1,6 @@
 import {
     Alert,
-    Card,
-    Chip, Divider, Paper, Snackbar,
+    Card, Divider, Snackbar,
     Stack, Tooltip,
     Typography
 } from "@mui/material";
@@ -10,7 +9,7 @@ import {Types} from "./BubbleChart/types";
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import InfoIcon from '@mui/icons-material/Info';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import BubbleChart3 from "./BubbleChart3/BubbleChart3";
+import BubbleChart3 from "./BubbleChart/BubbleChart";
 import client from "../client/Client";
 import IconDescriptions from "./small/descriptions";
 import OutlineChip from "./small/outlineChip";
